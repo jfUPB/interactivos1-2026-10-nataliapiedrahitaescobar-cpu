@@ -4,10 +4,14 @@
 
 ### Actividad 01
 
-Este es mi primer texto de la actividad 1
+### ¿Qué es un sistema físico interactivo?
+Es la interacción entre un mundo físico y ficticio generado para ser exprimentado en tiempo real por varias personas.
+### ¿Cómo podrías aplicar lo que has visto en tu perfil profesional?
+
 
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+

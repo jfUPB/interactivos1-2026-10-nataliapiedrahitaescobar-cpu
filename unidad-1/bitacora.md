@@ -85,8 +85,11 @@ while True:
     if button_b.is_pressed():
         uart.write('B')
         sleep(200)
-## Bitácora de reflexión
 ```
+
+## Bitácora de reflexión
+
+
 
 
 

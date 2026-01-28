@@ -12,53 +12,52 @@ Me gustaría irme por la línea de animación en mi perfil profesional y creo qu
 ## Bitácora de aplicación 
 ### Actividad 05
 **-Código programa 5P.js**
+let port;
 let connectBtn;
 let posX;
- 
+
 function setup() {
-    createCanvas(400, 400);
-    background(220);
-    port = createSerial();
-    connectBtn = createButton('Connect to micro:bit');
-    connectBtn.position(160, 300);
-    connectBtn.mousePressed(connectBtnClick);
- 
-    fill('white');
-    posX = width / 2;
-    ellipse(posX, height / 2, 100, 100);
+  createCanvas(400, 400);
+  background(220);
+
+  port = createSerial();
+
+  connectBtn = createButton('Connect to micro:bit');
+  connectBtn.position(160, 300);
+  connectBtn.mousePressed(connectBtnClick);
+
+  posX = width / 2;
 }
- 
+
 function draw() {
- 
-    if(port.availableBytes() > 0){
-        let dataRx = port.read(1);
-        if(dataRx == 'A'){
-            posX = posX - 20;
-        }
-        else if(dataRx == 'B'){
-            posX = posX + 20;
-        }
- 
-        background(220);
-        ellipse(posX, height / 2, 100, 100);
+  if (port.availableBytes() > 0) {
+    let dataRx = port.read(1);
+
+    if (dataRx == 'A') {
+      posX = posX - 20;
+    } else if (dataRx == 'B') {
+      posX = posX + 20;
     }
- 
- 
-    if (!port.opened()) {
-        connectBtn.html('Connect to micro:bit');
-    }
-    else {
-        connectBtn.html('Disconnect');
-    }
+
+    background(220);
+    ellipse(posX, height / 2, 100, 100);
+  }
+
+  if (!port.opened()) {
+    connectBtn.html('Connect to micro:bit');
+  } else {
+    connectBtn.html('Disconnect');
+  }
 }
- 
+
 function connectBtnClick() {
-    if (!port.opened()) {
-        port.open('MicroPython', 115200);
-    } else {
-        port.close();
-    }
+  if (!port.opened()) {
+    port.open('MicroPython', 115200);
+  } else {
+    port.close();
+  }
 }
+
 
 **-Código micro:bit**
 from microbit import *
@@ -72,6 +71,7 @@ while True:
         uart.write('B')
         sleep(200)
 ## Bitácora de reflexión
+
 
 
 

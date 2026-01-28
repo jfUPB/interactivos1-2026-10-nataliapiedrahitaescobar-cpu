@@ -106,7 +106,7 @@ function sendBtnClick() {
 ### Sacude el micro:bit ¿Qué pasa?
 Cuando sacudo el microbit el círculo que se encuentra en p5.js se pone de color verde y en el centro del círculo aparece la letra C.
 ### Presiona el botón "Send Love" ¿Qué pasa?
-
+Cuando apreto el botón "Send Love" en el micro:bit aparece una carita feliz al principio y al volver a apretar el botón aparece un corazón por unos segundos y después vuelve a aparecer la carita feliz.
 
 ### Actividad 05
 
@@ -180,6 +180,7 @@ while True:
 ```
 
 ## Bitácora de reflexión
+
 
 
 

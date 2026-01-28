@@ -13,6 +13,9 @@ Me gustaría irme por la línea de animación en mi perfil profesional y creo qu
 
 ### ¿Qué es el diseño de arte generativo?
 El diseño de arte generativo es una forma donde el diseñador crea reglas, datos y procesos que permiten a una computadora genear resultados visuales o narrativos, produciendo variaciones y soluciones que no serían fáciles de hacer manualmente.
+### ¿Cómo puedo aplicar lo visto en mi perfil profesional?
+Por la línea de animación, puedo usar el arte generativo creando sistemas de movimiento y animación basado en reglas, lo que me permite crear variaciones visuales y animaciones interactivas sin depender únicamente del formato frame by frame lo que me permite ampliar mis posibilidades creativas y las técnicas que puedo usar en mi trabajo.
+
 ### Actividad 05
 
 ### Explicación del sistema físico interactivo:
@@ -80,6 +83,7 @@ while True:
         uart.write('B')
         sleep(200)
 ## Bitácora de reflexión
+
 
 
 

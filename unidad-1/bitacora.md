@@ -9,6 +9,10 @@ Es la interacción entre un mundo físico y ficticio generado para ser expriment
 ### ¿Cómo podrías aplicar lo que has visto en tu perfil profesional?
 Me gustaría irme por la línea de animación en mi perfil profesional y creo que los sistemas físicos interactivos se pueden aplicar en una animación para volverla más real, o sea que la animación se sienta con vida, como si estuviera sucediendo de verdad al frente de las personas que la están viendo, ya sea por medio de reacciones que hace el personaje que se sienten reales, logrando que los entornos de la animación se sientan potentes y reales, etc.
 
+### Actividad 02
+
+### ¿Qué es el diseño de arte generativo?
+El diseño de arte generativo es una forma donde el diseñador crea reglas, datos y procesos que permiten a una computadora genear resultados visuales o narrativos, produciendo variaciones y soluciones que no serían fáciles de hacer manualmente.
 ### Actividad 05
 
 ### Explicación del sistema físico interactivo:
@@ -76,6 +80,7 @@ while True:
         uart.write('B')
         sleep(200)
 ## Bitácora de reflexión
+
 
 
 

@@ -9,7 +9,12 @@ Es la interacción entre un mundo físico y ficticio generado para ser expriment
 ### ¿Cómo podrías aplicar lo que has visto en tu perfil profesional?
 Me gustaría irme por la línea de animación en mi perfil profesional y creo que los sistemas físicos interactivos se pueden aplicar en una animación para volverla más real, o sea que la animación se sienta con vida, como si estuviera sucediendo de verdad al frente de las personas que la están viendo, ya sea por medio de reacciones que hace el personaje que se sienten reales, logrando que los entornos de la animación se sientan potentes y reales, etc.
 
+### Actividad 05
+
+### Explicación del sistema físico interactivo:
+Por medio del microbit la persona tiene la opción de presionar las teclas A o B y la información de la tecla seleccionada pasa a ser interpretada o leída por el programa p5.js. Si la tecla presionada es la A, el programa hace que el círculo se mueva hacia la izquierda o si la tecla presionada es B, el programa hace que el círculo se mueva a la derecha. 
 ## Bitácora de aplicación 
+
 ### Actividad 05
 **-Código programa 5P.js**
 let port;
@@ -71,6 +76,7 @@ while True:
         uart.write('B')
         sleep(200)
 ## Bitácora de reflexión
+
 
 
 

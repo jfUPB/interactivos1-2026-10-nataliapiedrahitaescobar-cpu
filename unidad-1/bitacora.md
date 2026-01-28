@@ -242,9 +242,6 @@ function sendBtnClick() {
     port.write('h');
 }
 ```
-### ¿Por qué no funciona el programa con was_pressed() y por qué si funciona con is_pressed?
-
-
 ### Actividad 05
 
 ### Explicación del sistema físico interactivo:
@@ -319,7 +316,12 @@ while True:
 
 ## Bitácora de reflexión
 
+## Actividad 06
 
+## Explicación del sistema físico interactivo de la actividad  04
+En la actividad 4 se construye un sistema físico interactivo que conecta un micro:bit con un programa p5.js para crear un cuadrado que cambie de color si se aprieta la letra A del microbit o que de lo contrario el cuadrado se ponga de color verde.
+Para esto, se crea el código en python en el micro:bit para que este detecte cuando se presiona el botón A utilizando la la función is_pressed(), que permite la lectura constante del botón si este está presionado, luego se crea el código en p5.js para preparar la conexión entre el micro:bit y la pantalla del computador (Ahí es donde se crea el cuadrado y se ve el cambio de colores).
+Si el dato recibido en p5.js recibe que el botón A está presionado, se hace el cambio de color del cuadrado a rojo, si no lo está o se hace otra acción, el color del cuadrado cambia a verde.
 
 
 

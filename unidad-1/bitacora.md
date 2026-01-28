@@ -24,6 +24,8 @@ Por medio del microbit la persona tiene la opción de presionar las teclas A o B
 
 ### Actividad 05
 **-Código programa 5P.js**
+
+```js
 let port;
 let connectBtn;
 let posX;
@@ -69,9 +71,10 @@ function connectBtnClick() {
     port.close();
   }
 }
-
+```
 
 **-Código micro:bit**
+```py
 from microbit import *
 
 while True:
@@ -83,6 +86,7 @@ while True:
         uart.write('B')
         sleep(200)
 ## Bitácora de reflexión
+```
 
 
 

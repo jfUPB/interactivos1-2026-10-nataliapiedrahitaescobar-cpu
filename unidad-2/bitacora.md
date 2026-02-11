@@ -2,6 +2,7 @@
 
 ## Bitácora de proceso de aprendizaje
 ### Actividad 1 
+```py
 from microbit import *
 import utime
 
@@ -89,9 +90,10 @@ while True:
     pixel1.update()
     pixel2.update()
     utime.sleep_ms(20)
-
+```
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+

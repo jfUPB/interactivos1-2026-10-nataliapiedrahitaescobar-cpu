@@ -97,7 +97,7 @@ Los estados son los que viven en los datos y pueden representar atributos boolea
 En este caso serían: estado_waitInOn y estado_waitInOff donde ambos representan una condición.
 ### ¿Cuáles son los eventos del programa?
 Los eventos son los que disparan la ejecución de una lógica o sea sus cambios o acciones. (Entry, exit y timeout)
-En este caso self.estado_actual("ENTRY") y self.estado_actual("EXIT") son eventos que suceden en el código.
+En este caso self.estado_actual("ENTRY") es el evento que sucede en el código.
 ### ¿Cuáles son las acciones del programa?
 Las acciones son lo que el sistema hace internamente cuando ocurre un evento.
 En este caso las acciones sería: Crear el timer t = Timer(self, event, duration), guardar el timer self.timers.append(t), Agregar un evento a la cola self.event_queue.append(ev), actualizar timers t.update() y sacar un evento de la cola ev = self.event_queue.pop(0).
@@ -107,5 +107,6 @@ En este caso las acciones sería: Crear el timer t = Timer(self, event, duration
 
 
 ## Bitácora de reflexión
+
 
 

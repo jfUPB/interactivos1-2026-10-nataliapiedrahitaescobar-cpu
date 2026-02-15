@@ -238,6 +238,10 @@ WaitInYellow --> WaitInRed : TimeOut
 
 ## Bitácora de reflexión
 
+## Actividad 3
+## ¿Hay algo que aún no comprendes completamente?
+- Todavía no comprendo muy bien cómo encontrar en un código  los eventos, acciones y estados.
+- No sé muy bien cómo empezar a editar un código, especialmente saber en dóndo debo editarlo precisamente.
 
 
 

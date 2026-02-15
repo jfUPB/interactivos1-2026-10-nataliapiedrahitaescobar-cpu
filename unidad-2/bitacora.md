@@ -102,6 +102,13 @@ En este caso self.estado_actual("ENTRY") es el evento que sucede en el código.
 Las acciones son lo que el sistema hace internamente cuando ocurre un evento.
 En este caso las acciones sería: Crear el timer t = Timer(self, event, duration), guardar el timer self.timers.append(t), Agregar un evento a la cola self.event_queue.append(ev), actualizar timers t.update() y sacar un evento de la cola ev = self.event_queue.pop(0).
 
+
+## Actividad 3
+## ¿Cómo es posible estructurar una aplicación usando una máquina de estados para poder atender varios eventos de manera concurrente?
+Se puede estructurar teniendo en cuenta los posibles estados del sistema y los eventos que pueden ocurrir. Cuando sucede un evento, se guarda en una lista de eventos y el sistema los procesa según el estado actual realizando acciones o cambios de estado según se mande la instrucción. 
+
+## ¿Cómo haces para probar que el programa está correcto?
+Se puede probar que un programa está correcto, mirando que el sistema si pase por los estados planeados en el código según los eventos que ocurran. Si ante cada evento se realiza la indicación o transición adecuada y el comportamiento es el mismo que se diseño en la máquina de estados, se puede decir que el programa funciona bien.
 ## Bitácora de aplicación 
 
 ## Actividad 2, punto 1 (Código con botón agregado)
@@ -230,6 +237,7 @@ WaitInYellow --> WaitInRed : TimeOut
 <img width="234" height="396" alt="image" src="https://github.com/user-attachments/assets/44e605ed-3648-4f21-b107-163c85e17041" />
 
 ## Bitácora de reflexión
+
 
 
 

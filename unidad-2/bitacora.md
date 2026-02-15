@@ -217,7 +217,20 @@ while True:
     semaforo1.update()
     utime.sleep_ms((20))
 ```
+## Actividad 2, punto 2 (Máquina de estados)
+@startuml
+[*] --> WaitInRed
+
+WaitInRed --> WaitInGreen : TimeOut
+WaitInGreen --> WaitInYellow : TimeOut
+WaitInGreen --> WaitInYellow : A 
+WaitInYellow --> WaitInRed : TimeOut
+@enduml
+
+<img width="234" height="396" alt="image" src="https://github.com/user-attachments/assets/44e605ed-3648-4f21-b107-163c85e17041" />
+
 ## Bitácora de reflexión
+
 
 
 

@@ -254,14 +254,149 @@ Terminado --> Configurando : A
 
 <img width="303" height="396" alt="image" src="https://github.com/user-attachments/assets/fa22e613-57ac-4f0c-9466-5d05c094783c" />
 
+## 2. Código micro:bit
+```py
+//Primero se hacen las importaciones necesarias que piede el ejercicio: utime que mide el tiempo en milisegundos y music
+from microbit import *
+import utime
+import music
+//Segundo se crean las imágenes del display
+def make_fill_images(on='9', off='0'):
+    imgs = []
+    for n in range(26):
+        rows = []
+        k = 0
+        for y in range(5):
+            row = []
+            for x in range(5):
+                row.append(on if k < n else off)
+                k += 1
+            rows.append(''.join(row))
+        imgs.append(Image(':'.join(rows)))
+    return imgs
+   
+FILL = make_fill_images()
+# Para mostrar usas display.show(FILL[n]) donde n será
+# un valor de 0 a 25
+//Tercero se crea el temporizador
+class Timer:
+    def __init__(self, owner, event_to_post, duration):
+        self.owner = owner
+        self.event = event_to_post
+        self.duration = duration
+        self.start_time = 0
+        self.active = False
+        self.tiempo = 20
+
+    def start(self, new_duration=None):
+        if new_duration is not None:
+            self.duration = new_duration
+        self.start_time = utime.ticks_ms()
+        self.active = True
+
+    def stop(self):
+        self.active = False
+
+    def update(self):
+        if self.active:
+            if utime.ticks_diff(utime.ticks_ms(), self.start_time) >= self.duration:
+                self.active = False
+                self.owner.post_event(self.event)
+//Cuarto se coloca el comportamiento del programa, se crea la variable inicial tiempo que se temporiza en 20 segundos y se crean los estados (Configurando, contando y terminando)
+class Task:
+    def __init__(self):
+        self.event_queue = []
+        self.timers = []
+        # Personalizas el nombre del evento y la duración
+        self.myTimer = self.createTimer("Timeout",1000)
+
+        self.tiempo = 20
+        self.estado_actual = None
+        self.transicion_a(self.estado_configurando)
+
+    def createTimer(self,event,duration):
+        t = Timer(self, event, duration)
+        self.timers.append(t)
+        return t
+
+    def post_event(self, ev):
+        self.event_queue.append(ev)
+
+    def update(self):
+        # 1. Actualizar todos los timers internos automáticamente
+        for t in self.timers:
+            t.update()
+
+        # 2. Procesar la cola de eventos resultante
+        while len(self.event_queue) > 0:
+            ev = self.event_queue.pop(0)
+            if self.estado_actual:
+                self.estado_actual(ev)
+
+    def transicion_a(self, nuevo_estado):
+        if self.estado_actual: self.estado_actual("EXIT")
+        self.estado_actual = nuevo_estado
+        self.estado_actual("ENTRY")
 
 
+    def estado_configurando(self, ev):
+        if ev == "ENTRY":
+            display.show(FILL[self.tiempo])
+        if ev == "A" and self.tiempo < 25:
+            self.tiempo += 1
+            display.show(FILL[self.tiempo])
+        if ev == "B"   and self.tiempo < 15:
+            self.tiempo -= 1
+            display.show(FILL[self.tiempo])
+            pass
+        
+            
+        if  ev == "Timeout":
+            if ev == "S":
+                self.transicion_a(self.estado_contando)
+            pass
+
+    def estado_contando(self, ev):
+        if ev == "ENTRY":
+            self.myTimer.start()
+            pass
+        if ev == "Timeout":
+            self.tiempo -= 1
+            display.show(FILL[self.tiempo])
+            if self.tiempo == 0:
+                self.transicion_a(self.estado_terminado)
+            pass
+
+    def estado_terminado(self,ev):
+        if ev == "ENTRY":
+            display.show(Image.SKULL)
+            music.play(music.BA_DING)
+            
+        if ev == "A":
+            self.tiempo = 20
+            self.transicion_a(self.estado_configurando)
+//Quinto la máquina de estados decide qué hacer
+task = Task()
+while True:
+    # Aquí generas los eventos de los botones y el gesto
+    if button_a.was_pressed():
+        task.post_event("A")
+    if button_b.was_pressed():
+        task.post_event("B")
+    if accelerometer.was_gesture("shake"):
+        task.post_event("S")
+
+    task.update()
+    utime.sleep_ms(20)
+            
+```
 ## Bitácora de reflexión
 
 ## Actividad 3
 ## ¿Hay algo que aún no comprendes completamente?
 - Todavía no comprendo muy bien cómo encontrar en un código  los eventos, acciones y estados.
 - No sé muy bien cómo empezar a editar un código, especialmente saber en dóndo debo editarlo precisamente.
+
 
 
 

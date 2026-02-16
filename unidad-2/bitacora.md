@@ -236,12 +236,32 @@ WaitInYellow --> WaitInRed : TimeOut
 
 <img width="234" height="396" alt="image" src="https://github.com/user-attachments/assets/44e605ed-3648-4f21-b107-163c85e17041" />
 
+## Actividad 4
+## 1. Máquina de estado
+@startuml
+[*] --> Configurando (Aumenta o disminuye el tiempo con A y B)
+
+Configurando --> Configurando : A
+Configurando --> Configurando : B
+Configurando --> Contando : S (Shake, arma el temporizador)
+
+Contando --> Contando : TimeOut (Cada TimeOut apaga un 1 pixel)
+Contando --> Terminado : TimeOut [Tiempo == 0] (Cuando el tiempo queda en 0 pasa a terminado)
+
+Terminado --> Configurando : A
+(Se muestra la calavera, Botón A reinicia y se vuelve a configuración)
+
+<img width="303" height="396" alt="image" src="https://github.com/user-attachments/assets/fa22e613-57ac-4f0c-9466-5d05c094783c" />
+
+@enduml
+
 ## Bitácora de reflexión
 
 ## Actividad 3
 ## ¿Hay algo que aún no comprendes completamente?
 - Todavía no comprendo muy bien cómo encontrar en un código  los eventos, acciones y estados.
 - No sé muy bien cómo empezar a editar un código, especialmente saber en dóndo debo editarlo precisamente.
+
 
 
 

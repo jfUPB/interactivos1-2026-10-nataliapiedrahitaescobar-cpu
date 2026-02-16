@@ -390,12 +390,52 @@ while True:
     utime.sleep_ms(20)
             
 ```
+
+## Actividad 5
+## ¿Cómo resolví el código?
+1. Se crea la unión entre el micro:bit y la página de p5.js por medio de setup() y el writer es el que permite enviar los datos de p5.js a micro:bit.
+2. Desde p5.js se mandan las letras A,B y S que simulan las acciones de los botones UP, DOWN y ARMED.
+3. El micro:bit recibe esta información por medio de uart y los transforma en eventos que se agregan a la lista de eventos del micro:bit post_event().
+
+```js
+let port;
+let writer;
+
+async function setup() {
+  createCanvas(200, 200);
+   port = await navigator.serial.requestPort();
+  await port.open({ baudRate: 115200 });
+
+  writer = port.writable.getWriter();
+}
+
+function draw() {
+  background(220);
+  text("Presiona A, B o S", 40, 100);
+}
+
+function keyPressed(){
+  if(key == "A"){
+    writer.write(new TextEncoder().encode("A\n"));
+  }
+  
+  if(key == "B"){
+     writer.write(new TextEncoder().encode("B\n"));
+  }
+  
+  if(key == "S"){
+     writer.write(new TextEncoder().encode("S\n"));
+  }
+}
+```
+   
 ## Bitácora de reflexión
 
 ## Actividad 3
 ## ¿Hay algo que aún no comprendes completamente?
 - Todavía no comprendo muy bien cómo encontrar en un código  los eventos, acciones y estados.
 - No sé muy bien cómo empezar a editar un código, especialmente saber en dóndo debo editarlo precisamente.
+
 
 
 

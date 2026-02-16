@@ -250,10 +250,11 @@ Contando --> Terminado : TimeOut [Tiempo == 0] (Cuando el tiempo queda en 0 pasa
 
 Terminado --> Configurando : A
 (Se muestra la calavera, Botón A reinicia y se vuelve a configuración)
+@enduml
 
 <img width="303" height="396" alt="image" src="https://github.com/user-attachments/assets/fa22e613-57ac-4f0c-9466-5d05c094783c" />
 
-@enduml
+
 
 ## Bitácora de reflexión
 
@@ -261,6 +262,7 @@ Terminado --> Configurando : A
 ## ¿Hay algo que aún no comprendes completamente?
 - Todavía no comprendo muy bien cómo encontrar en un código  los eventos, acciones y estados.
 - No sé muy bien cómo empezar a editar un código, especialmente saber en dóndo debo editarlo precisamente.
+
 
 
 

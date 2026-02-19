@@ -152,3 +152,5 @@ while True:
 ```
 
 ## Bitácora de reflexión
+## Actividad 1
+**Paso a Paso**

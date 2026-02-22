@@ -2,10 +2,9 @@
 
 ## Bitácora de proceso de aprendizaje
 
-
 ## Bitácora de aplicación 
 
-## Actividad 1
+## Actividad 1 --- Código arreglado
 ```py
 from microbit import *
 import utime
@@ -150,7 +149,89 @@ while True:
     semaforo1.update()
     utime.sleep_ms(20)
 ```
+## Actividad 2 --- Código arreglado.
+```py
+from microbit import *
+from fsm import FSMTask, ENTRY, EXIT
+from utils import FILL
+import utime
+import music
 
+class Temporizador(FSMTask):
+    def __init__(self):
+        super().__init__()
+        self.event_queue = []
+        self.timers = []
+        self.counter = 20
+        self.paused = False
+        self.sequence = ""
+        self.myTimer = self.add_timer("Timeout",1000)
+        self.estado_actual = None
+        self.transition_to(self.estado_config)
+
+
+    def estado_config(self, ev):
+        if ev == ENTRY:
+            self.counter = 20
+            display.show(FILL[self.counter])
+            self.myTimer.start()
+        if ev == "A":
+            if self.counter > 15:
+                self.counter -= 1
+            display.show(FILL[self.counter])
+        if ev == "B":
+            if self.counter < 25:
+                self.counter += 1
+            display.show(FILL[self.counter])
+        if ev == "S":
+            self.transition_to(self.estado_armed)
+
+    def estado_armed(self, ev):
+        if ev == ENTRY:
+            self.myTimer.start()
+        if ev == "Timeout":
+            if self.counter > 0:
+                self.counter -= 1
+                display.show(FILL[self.counter])
+                if self.counter == 0:
+                    self.transition_to(self.estado_timeout)
+                else:
+                    self.myTimer.start()
+        if ev == "A":
+            if not self.paused:
+                self.myTimer.stop()
+                self.paused = True
+            else:
+                self.myTimer.start()
+                self.paused = False
+
+    def estado_timeout(self, ev):
+        if ev == ENTRY:
+            display.show(Image.SKULL)
+            music.play(music.FUNERAL)
+        if ev == "A":
+            music.stop()
+            self.transition_to(self.estado_config)
+
+temporizador = Temporizador()
+
+while True:
+
+    if button_a.was_pressed():
+        temporizador.sequence += "A"
+        temporizador.post_event("A")
+    if button_b.was_pressed():
+        temporizador.sequence += "B"
+        temporizador.post_event("B")
+    if accelerometer.was_gesture("shake"):
+        temporizador.post_event("S")
+
+    temporizador.update()
+    if temporizador.sequence.endswith("ABA"):
+        temporizador.transition_to(temporizador.estado_config)
+        temporizador.sequence = ""
+    utime.sleep_ms(20)
+```
 ## Bitácora de reflexión
 ## Actividad 1
 **Paso a Paso: Creando el botón A**
@@ -193,3 +274,36 @@ Para salir del estado nocturno se preciona el botón A para que el semáforo reg
 if ev == "A":
     self.transicion_a(self.estado_waitInRed)
 ```
+## Actividad 2
+1. El self.paused se crea porque el código inicial no se puede pausar solo y con el self.paused se le puede recordar ese comando al código para que lo haga.
+2. El self.sequence va guardando los botones que se presionen y lo guarda como una secuencia (ABA).
+3. Lograr que el botón A pause o continúé el comando realizado de esta manera:
+   ```py
+   if ev == "A":
+    if not self.paused: //Si el timer no está pausado
+        self.myTimer.stop() //Se detiene el timer
+        self.paused = True//Se marca que ahora está pausado
+    else:
+        self.myTimer.start()
+        self.paused = False
+   ```
+4. Iniciar el timer cuando ya está pausado:
+     ```py
+     self.myTimer.start() //Se reinicia el Timer
+     self.paused = False //Se marca que ya no está pausado el Timer
+     ```
+5. Guardar la secuencia (ABA)
+   En el while True se agrega:
+   ```py
+   temporizador.sequence += "A"
+   temporizador.post_event("A")
+   ```
+   // Este código agrega una A a lo que ya estaba guardado y lo mismo se hace con el botón B
+6. Detectar (ABA)
+   Se agrega:
+   ```py
+   if temporizador.sequence.endswith("ABA"):
+    temporizador.transition_to(temporizador.estado_config) //Si sí se presionaron las teclas se regresa al modo de configuración 
+    temporizador.sequence = "" //Se borra la secuencia para empezar otra vez
+   ```
+   Esta parte del código se encarga de verificar que las últimas teclas presionadas si generan la secuencia (ABA).

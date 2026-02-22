@@ -153,4 +153,43 @@ while True:
 
 ## Bitácora de reflexión
 ## Actividad 1
-**Paso a Paso**
+**Paso a Paso: Creando el botón A**
+El botón A se agregó para podeer crear el modo peatonal donde al apretar el botón A el semáforo se pone en rojo, pero antes de debe pasar por el amarillo.
+Creación del botón: 
+```py
+if button_a.was_pressed():
+    semaforo1.post_event("A")
+```
+Luego se modificó el estado verde para que cuando se aprete el botón A, esta información se reciba y realice la transición al botón amarillo: (Verde --- Amarillo --- Rojo)
+```py
+if ev == "A":
+    self.transicion_a(self.estado_waitInYellow)
+```
+Para que múltiples presiones del botón no afecten el proceso del modo peatonal, se coloca la instrucción pass en los estados rojo y amarillo.
+
+**Paso a Paso: Creando el botón B**
+El botón B se creó para activar es estado de modo nocturno donde la luz amarilla del semáforo parpadea constantemente.
+Creación del botón: 
+``` py
+if button_b.was_pressed():
+    semaforo1.post_event("B")
+```
+Se crea una transición de la luces del semáforo al estado nocturno por medio de:
+```py
+if ev == "B":
+    self.transicion_a(self.estado_nocturno)
+```
+Se crea el estado nocturno y dentro de este se coloca el parpadeo constante de la luz amarilla usando el temporizador de myTimer que está creado y se crea una variable booleana: El bool permite mirar si el LED amarillo está prendido o apagado.
+```py
+self.led_on
+```
+Cuando se acaba el temporizador se genera el evento Timeout, lo que genera que sistema entre al modo nocturno: Este proceso sucede constantemente el efecto del parpadeo.
+```py
+if ev == "Timeout":
+    self.transicion_a(self.estado_nocturno)
+```
+Para salir del estado nocturno se preciona el botón A para que el semáforo regrese a su estadano normal:
+```py
+if ev == "A":
+    self.transicion_a(self.estado_waitInRed)
+```

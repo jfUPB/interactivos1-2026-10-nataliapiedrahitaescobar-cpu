@@ -4,7 +4,7 @@
 ## Actividad 3 
 **¿Cómo funciona el código?**
 **1.Index.HTML:** 
-Es el archivo que abre el navegador e indica los archivos que debe tener el código para que funcione correctamente.
+Es el archivo que abre el navegador, carga el p5.js, carga el código y es el contenedor donde se dibuja el proyecto. 
 En este caso en la línea de código 15 se indica que el código debe tener un archivo fsm.js en el cuerpo del código para que pueda funcionar.
 ```
 <script src="fsm.js"></script>
@@ -319,5 +319,6 @@ if ev == "A":
     temporizador.sequence = "" //Se borra la secuencia para empezar otra vez
    ```
    Esta parte del código se encarga de verificar que las últimas teclas presionadas si generan la secuencia (ABA).
+
 
 

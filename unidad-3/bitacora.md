@@ -6,13 +6,13 @@
 **1.Index.HTML:** 
 Es el archivo que abre el navegador e indica los archivos que debe tener el código para que funcione correctamente.
 En este caso en la línea de código 15 se indica que el código debe tener un archivo fsm.js en el cuerpo del código para que pueda funcionar.
-´´´
+```
 <script src="fsm.js"></script>
-´´´
+```
 Lo mismo sucede en la línea de código 17 pero esta vez se pide es el sketch.js.
-´´´
+```
  <script src="sketch.js"></script>
- ´´´
+```
  
 ## Bitácora de aplicación 
 
@@ -319,4 +319,5 @@ if ev == "A":
     temporizador.sequence = "" //Se borra la secuencia para empezar otra vez
    ```
    Esta parte del código se encarga de verificar que las últimas teclas presionadas si generan la secuencia (ABA).
+
 

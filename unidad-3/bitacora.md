@@ -3,6 +3,7 @@
 ## Bitácora de proceso de aprendizaje
 ## Actividad 3 
 **¿Cómo funciona el código?**
+
 **1.Index.HTML:** 
 Es el archivo que abre el navegador, carga el p5.js, carga el código y es el contenedor donde se dibuja el proyecto. O sea, es el archivo que muestra lo que es necesario agregar en el código para que este funcione correctamente en p5.js y pueda ser pasado a Micro:bit.
 
@@ -14,7 +15,8 @@ Lo mismo sucede en la línea de código 17 pero esta vez se pide es el sketch.js
 ```
  <script src="sketch.js"></script>
 ```
- 
+**2.Sketch.js:**
+Va la parte del código donde se dibuja en pantalla, se programa el comportamiento que va a tener el micro:bit, se programa la forma en la que va a funcionar el teclado o el mouse y lo que sucede en el tiempo.
 ## Bitácora de aplicación 
 
 ## Actividad 1 --- Código arreglado
@@ -320,6 +322,7 @@ if ev == "A":
     temporizador.sequence = "" //Se borra la secuencia para empezar otra vez
    ```
    Esta parte del código se encarga de verificar que las últimas teclas presionadas si generan la secuencia (ABA).
+
 
 
 

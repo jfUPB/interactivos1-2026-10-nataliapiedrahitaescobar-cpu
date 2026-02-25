@@ -17,6 +17,13 @@ Lo mismo sucede en la línea de código 17 pero esta vez se pide es el sketch.js
 ```
 **2.Sketch.js:**
 Va la parte del código donde se dibuja en pantalla, se programa el comportamiento que va a tener el micro:bit, se programa la forma en la que va a funcionar el teclado o el mouse y lo que sucede en el tiempo.
+
+**3.Style.css:**
+Se encarga de mostrar cómo se ve la página web. O sea, del color de fondo de la página, los márgenes, centrar el canvas, quitar bordes, poner el lienzo en pantalla completa y el tipo de tipografía que se va a utilizar.
+
+**4.Fsm.js:** Es donde se realiza la lógica de los estados y temporizadores. Controla como se comporta el sistema dependiendo de lo que esté pasando. 
+
+
 ## Bitácora de aplicación 
 
 ## Actividad 1 --- Código arreglado
@@ -322,6 +329,7 @@ if ev == "A":
     temporizador.sequence = "" //Se borra la secuencia para empezar otra vez
    ```
    Esta parte del código se encarga de verificar que las últimas teclas presionadas si generan la secuencia (ABA).
+
 
 
 

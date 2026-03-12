@@ -363,7 +363,34 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 ```
+<img width="960" height="509" alt="image" src="https://github.com/user-attachments/assets/953d65c5-e231-4fcf-986c-0c814946853e" />
 
+-La página ejecutada cuando el polígono estaba muy pequeño:
+<img width="960" height="479" alt="image" src="https://github.com/user-attachments/assets/2d419682-12b0-4ad7-8664-ba059d9a6c58" />
+
+-La página con las medidas del polígono corregidas:
+<img width="960" height="512" alt="image" src="https://github.com/user-attachments/assets/2c56aa4a-88bc-4422-8b69-3121021f94e8" />
+
+**3.Código del Micro:bit para que funcionaran los controles:**
+```
+# Imports go at the top
+from microbit import *
+
+while True: 
+    x = accelerometer.get_x()
+    y = accelerometer.get_y()
+
+    btnA = button_a.is_pressed()
+    btnB = button_b.is_pressed()
+
+    calc = (x + y + btnA + btnB) % 256
+    chk = calc
+    
+    print("{}|{}|{}|{}".format(x, y, int(btnA), int(btnB), chk, calc))
+
+    sleep(50)
+```
 ## Bitácora de reflexión
 ¿Por qué el botón de connect en el html no se activaba después de corregir el código?
+
 

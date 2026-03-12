@@ -391,6 +391,6 @@ while True:
     sleep(50)
 ```
 ## Bitácora de reflexión
-¿Por qué el botón de connect en el html no se activaba después de corregir el código?
-
+**¿Por qué el botón de connect en el html no se activaba después de corregir el código?**
+No funcionaba porque no tenía ejecutado el servidor del nodo, para solucionarlo solo debía ir al terminal y activar node bridgeServer.js, dejar la terminal abierta, abrir el HTML por medio del Go Live y presionar el connect. Ahí ya funcionó la página.
 

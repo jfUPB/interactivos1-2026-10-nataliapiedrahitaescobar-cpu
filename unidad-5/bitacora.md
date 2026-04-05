@@ -41,6 +41,11 @@ Big Endian = 00
 ### **¿Por qué el protocolo ASCII de la unidad anterior no tenía este problema de sincronización?**
 
 Porque en ASCII cada mensaje termina con el caracter especial \n, el cual funciona como delimitador. Entonces aunque los datos lleguen corridos, el receptor simpre va a leer los datos hasta que llegue a \n.
+
+### **¿Por qué en binario no podemos usar \n como delimitador?**
+
+No se puede utilizar porque el protocolo binario usa bytes puros (números de 0 a 255) y no texto.
+\n no es un caracter especial, sino un valor que puede aparecer dentro de los datos (00 0A) lo que puede causar errores al separar los paquetes.
 ## Bitácora de aplicación 
 
 

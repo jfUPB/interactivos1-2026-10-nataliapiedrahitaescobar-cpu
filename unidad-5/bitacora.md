@@ -55,6 +55,10 @@ Cada framing cuenta con 8 bytes: 1 byte del header, los datos que cuentan con 6 
 
 Un paquete con framing tiene 2 bytes adicionales que serían el header y el checksum y sin framing, el paquete solo contaría con 6 bytes que serían los datos.
 
+### **¿Qué pasa si un byte de datos tiene el valor 0xAA (170 en decimal)? ¿Podría el receptor confundirlo con un header? ¿Cómo ayuda el checksum en este caso?** 
+
+Un byte con valor 0xAA si puede confundirse con un header si el receptor no está sincronizado, pero el checksum permite detectar que los datos son incorrectos, evitando que se interprete un paquete inválido como válido.
+
 ## Bitácora de aplicación 
 
 

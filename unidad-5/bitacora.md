@@ -51,6 +51,10 @@ No se puede utilizar porque el protocolo binario usa bytes puros (números de 0 
 
 Cada framing cuenta con 8 bytes: 1 byte del header, los datos que cuentan con 6 bytes y 1 byte del checksum.
 
+### **¿Cuántos más que sin framing?**
+
+Un paquete con framing tiene 2 bytes adicionales que serían el header y el checksum y sin framing, el paquete solo contaría con 6 bytes que serían los datos.
+
 ## Bitácora de aplicación 
 
 

@@ -46,6 +46,11 @@ Porque en ASCII cada mensaje termina con el caracter especial \n, el cual funcio
 
 No se puede utilizar porque el protocolo binario usa bytes puros (números de 0 a 255) y no texto.
 \n no es un caracter especial, sino un valor que puede aparecer dentro de los datos (00 0A) lo que puede causar errores al separar los paquetes.
+
+### **¿Cuántos bytes tiene el paquete completo con framing?**
+
+Cada framing cuenta con 8 bytes: 1 byte del header, los datos que cuentan con 6 bytes y 1 byte del checksum.
+
 ## Bitácora de aplicación 
 
 

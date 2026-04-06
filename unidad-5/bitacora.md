@@ -59,6 +59,12 @@ Un paquete con framing tiene 2 bytes adicionales que serían el header y el chec
 
 Un byte con valor 0xAA si puede confundirse con un header si el receptor no está sincronizado, pero el checksum permite detectar que los datos son incorrectos, evitando que se interprete un paquete inválido como válido.
 
+### **ACTIVIDAD 3**
+
+**Realiza una tabla comparativa entre el adapter ASCII que creaste en la Unidad 4 (MicrobitV2Adapter.js) y el adapter binario de esta unidad (MicrobitBinaryAdapter.js).**
+![Cuadro comparativo](https://github.com/user-attachments/assets/8b4b74ee-e2b7-4a6f-9825-57423af90f4d)
+
+
 ## Bitácora de aplicación 
 ### **ACTIVIDAD 2**
 **MicrobitBinaryAdapter.js**

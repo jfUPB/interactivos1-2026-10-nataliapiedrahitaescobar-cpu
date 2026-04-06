@@ -67,6 +67,14 @@ Un byte con valor 0xAA si puede confundirse con un header si el receptor no est�
 
 **¿Por qué la arquitectura desacoplada (patrón Adapter + Bridge + FSM) te permite añadir soporte para un protocolo completamente diferente sin modificar el frontend (sketch.js) ni el transporte (bridgeClient.js)?**
 
+No es necesario cambiar la arquitectura del sistema porque cada parte del programa tiene su función. El adapter es el que interpreta los datos del microbit, mientras que el bridgeServer solo se encarga de enviar los datos al navegador.
+
+Por eso, al pasar de ASCII a binario solo fue necesario cambiar el adapter porque este es el encargado de entender los datos. El bridgeServer y el sketch no se tuvieron que cambiar porque siguen recibiendo los datos del mismo formato (JSON).
+
+**¿En qué situaciones del mundo real preferirías un protocolo binario sobre uno ASCII y viceversa? Justifica con ejemplos concretos.**
+
+
+
 
 
 

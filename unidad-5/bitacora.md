@@ -62,6 +62,7 @@ Un byte con valor 0xAA si puede confundirse con un header si el receptor no est√
 ### **ACTIVIDAD 3**
 
 **Realiza una tabla comparativa entre el adapter ASCII que creaste en la Unidad 4 (MicrobitV2Adapter.js) y el adapter binario de esta unidad (MicrobitBinaryAdapter.js).**
+
 <img width="1024" height="768" alt="Cuadro comparativo" src="https://github.com/user-attachments/assets/5762d5a5-85b3-4766-a256-e0a80bb37f1a" />
 
 

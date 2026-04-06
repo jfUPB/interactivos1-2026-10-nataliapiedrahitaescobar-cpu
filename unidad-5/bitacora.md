@@ -84,7 +84,11 @@ Es mejor usar el protocolo binario cuando se necesita mayor eficiencia y velocid
 El protocolo ASCII se usa cuando se necesita facilidad de lectura y depuración, ya que, los datos se pueden ver en texto. Por ejemplo: Se puede usar en pruebas, procesos de aprendizaje o sistemas simples donde es importante entender fácilmente lo que se está enviando.
 
 **Actualiza el diagrama de flujo de datos de la Unidad 4 para reflejar el protocolo binario. ¿Qué componentes cambiaron? ¿Qué componentes permanecieron intactos?**
-<img width="616" height="290" alt="image" src="https://github.com/user-attachments/assets/0c4de74b-509a-453f-8616-569bbc19654f" />
+
+Al actualizar el diagrama, el cambio principal fue al agregar el MicrobitBinaryAdapter, que es el encargado de leer los datos en formato binario en vez de texto. También se cambió la forma en la que el microbit envía la información, ya que antes enviaba texto y ahora envía datos en forma de bytes.
+
+El resto del programa no se cambió. El bridgeServer, bridgeClient y p5.js siguen funcionando de la misma manera, ya que reciben los datos ya organizados.
+
 
 
 

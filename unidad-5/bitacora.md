@@ -73,7 +73,11 @@ Por eso, al pasar de ASCII a binario solo fue necesario cambiar el adapter porqu
 
 **¿En qué situaciones del mundo real preferirías un protocolo binario sobre uno ASCII y viceversa? Justifica con ejemplos concretos.**
 
+Es mejor usar el protocolo binario cuando se necesita mayor eficiencia y velocidad porque utiliza menos espacio y es más rápido de procesar. Por ejemplo: En los videojuegos, los sensores en tiempo real o los sistemas donde se envían muchos datos constantemente.
 
+El protocolo ASCII se usa cuando se necesita facilidad de lectura y depuración, ya que, los datos se pueden ver en texto. Por ejemplo: Se puede usar en pruebas, procesos de aprendizaje o sistemas simples donde es importante entender fácilmente lo que se está enviando.
+
+**Actualiza el diagrama de flujo de datos de la Unidad 4 para reflejar el protocolo binario. ¿Qué componentes cambiaron? ¿Qué componentes permanecieron intactos?**
 
 
 

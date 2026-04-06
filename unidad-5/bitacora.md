@@ -78,7 +78,7 @@ Es mejor usar el protocolo binario cuando se necesita mayor eficiencia y velocid
 El protocolo ASCII se usa cuando se necesita facilidad de lectura y depuración, ya que, los datos se pueden ver en texto. Por ejemplo: Se puede usar en pruebas, procesos de aprendizaje o sistemas simples donde es importante entender fácilmente lo que se está enviando.
 
 **Actualiza el diagrama de flujo de datos de la Unidad 4 para reflejar el protocolo binario. ¿Qué componentes cambiaron? ¿Qué componentes permanecieron intactos?**
-
+<img width="616" height="290" alt="image" src="https://github.com/user-attachments/assets/0c4de74b-509a-453f-8616-569bbc19654f" />
 
 
 

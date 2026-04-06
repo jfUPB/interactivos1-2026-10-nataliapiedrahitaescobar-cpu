@@ -488,3 +488,9 @@ mientras que al verificar el chekcsum se utilizaban 7 datos y pensaba que eso er
     }
 ```
 Pero entendí que al verificar el checksum se usan 7 datos porque aquí se comparan dos cosas distintas: Los 6 bytes que se utilizan para calcular el el checksum y el checksum que ya viene en el paquete.
+
+- Pensé que tenía un error en el adapter del microbit binario porque en esta parte del código todavía se estaban mandando comandos en texto, lo cual no se debería hacer en binario.
+```
+if (cmd?.cmd === "setLed") { const x = Math.max(0, Math.min(4, Math.trunc(cmd.x))); const y = Math.max(0, Math.min(4, Math.trunc(cmd.y))); const v = Math.max(0, Math.min(9, Math.trunc(cmd.value))); await this.writeLine(LED,${x},${y},${v}\n);
+```
+pero mantuve el envío de comandos en formato ASCII para simplificar la comunicación con el microbit; ya que el código del dispositivo no implementa recepción en binario.

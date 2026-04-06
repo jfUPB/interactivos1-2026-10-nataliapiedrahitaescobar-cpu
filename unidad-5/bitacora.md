@@ -469,3 +469,22 @@ async function main() {
 ```
 
 ## Bitácora de reflexión
+- Tuve dudas en la parte del código del Adapter porque al calcular el checksum se utilizaban 6 datos en el código
+```
+let sum = 0;
+    for(let i = 1; i <= 6; i++) {
+        sum += packet[i];
+    }
+    const checksum = sum % 256;
+```
+mientras que al verificar el chekcsum se utilizaban 7 datos y pensaba que eso era un error.
+```
+   {
+        if(checksum !== packet[7]) {
+            console.warn("Checksum inválido");
+            this.buf = this.buf.slice(1); //Descartar el byte del header y seguir buscando.
+            continue;
+        }
+    }
+```
+Pero entendí que al verificar el checksum se usan 7 datos porque aquí se comparan dos cosas distintas: Los 6 bytes que se utilizan para calcular el el checksum y el checksum que ya viene en el paquete.

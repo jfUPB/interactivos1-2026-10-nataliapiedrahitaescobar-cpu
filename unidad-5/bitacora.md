@@ -61,7 +61,12 @@ Un byte con valor 0xAA si puede confundirse con un header si el receptor no est�
 
 ### **ACTIVIDAD 3**
 
-**Realiza una tabla comparativa entre el adapter ASCII que creaste en la Unidad 4 (MicrobitV2Adapter.js) y el adapter binario de esta unidad (MicrobitBinaryAdapter.js).**
+**Actualiza el diagrama de flujo de datos de la Unidad 4 para reflejar el protocolo binario. ¿Qué componentes cambiaron? ¿Qué componentes permanecieron intactos?.**
+
+El cambio principal al actualizar el programa fue agregar el MicrobitBinaryAdapter, que es el encargado de leer los dato en formato binario en vez de texto. También cambió la forma en la que el microbit envía la información, ya que antes enviaba texto y ahora envía datos en forma de bytes.
+
+El resto del sistema no cambió. El bridgeServer, bridgeClient y el p5.js siguen funcionando de la misma manera porque reciben los datos ya organizados.
+
 
 <img width="1024" height="768" alt="Cuadro comparativo" src="https://github.com/user-attachments/assets/5762d5a5-85b3-4766-a256-e0a80bb37f1a" />
 

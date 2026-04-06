@@ -90,6 +90,7 @@ Al actualizar el diagrama, el cambio principal fue al agregar el MicrobitBinaryA
 El resto del programa no se cambió. El bridgeServer, bridgeClient y p5.js siguen funcionando de la misma manera, ya que reciben los datos ya organizados.
 
 
+<img width="593" height="267" alt="image" src="https://github.com/user-attachments/assets/eadb25ac-846c-4349-b7ec-57e31a252947" />
 
 
 ## Bitácora de aplicación 

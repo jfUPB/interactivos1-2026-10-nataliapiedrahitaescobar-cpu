@@ -17,6 +17,22 @@ Aunque en esta unidad se utiliza Strudel y no un microbit, la estructura del sis
 
 Todavía hay un Adapter que se encarga de recibir y traducir los datos a un formato que el sistema entienda. También se mantiene el bridgeServer que sirve trabajando como intermediario para enviar datos al fronted, el bridgeClient sigue recibiendo los datos y enviándolos a la lógica de la aplicación, y se mantiene la separación entre recepción de datos, updateLogic y draw.
 
+### **Si Strudel fuera “el dispositivo” de esta unidad, ¿Cuál sería su protocolo?**
+
+El protocolo de Strudel sería el formato que envía los mensajes por WebSocket, usando datos tipo JSON.
+
+Cada mensaje representaría un evento musical y tendría información como:
+
+- Qué sonido se reproduce.
+- El timestamp, o sea cuando debe ocurrir el sonido.
+- El delta o cuánto dura el ritmo.
+
+El protocolo define cómo están organizados los datos que Strudel envía para que otro sistema los pueda leer de forma correcta.
+
+## **¿Qué variables mínimas necesitarías extraer para poder construir una visualización útil?**
+
+
+
 
 
 ## Bitácora de aplicación 

@@ -501,7 +501,37 @@ async function main() {
     process.exit(1);
   });
 ```
+### **Código Microbit Binario:**
+```
+from microbit import *
+import struct
 
+uart.init(115200)
+
+while True:
+    xValue = accelerometer.get_x()
+    yValue = accelerometer.get_y
+
+    aState = button_a.is_pressed()
+    bState = button_b.is_pressed()
+
+    # Datos binarios (6 bytes)
+    data = struct.pack('>2h2B', xValue, yValue, int(aState), int(bState))
+
+    # Header
+    header =  b'\xAA'
+
+    # Checksum
+    checksum = sum(data) % 256
+    checksum_byte = bytes([checksum])
+
+    # Paquete completo de 8 bytes
+    packet = header + data + checksum_byte
+    
+    uart.write(packet)
+
+    sleep(100)
+```
 ## Bitácora de reflexión
 - Tuve dudas en la parte del código del Adapter porque al calcular el checksum se utilizaban 6 datos en el código
 ```

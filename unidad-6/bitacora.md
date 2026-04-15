@@ -31,6 +31,12 @@ El protocolo define cómo están organizados los datos que Strudel envía para q
 
 ## **¿Qué variables mínimas necesitarías extraer para poder construir una visualización útil?**
 
+Para hacer una visualización útil se necesita:
+
+1. El tipo de sonido para decidir qué elemento visual mostrar.
+2. Un timestamp para sincronizar el momento en que aparece la animación.
+3. El delta, para controlar cuánto dura o cómo se comporta la animación.
+
 
 
 

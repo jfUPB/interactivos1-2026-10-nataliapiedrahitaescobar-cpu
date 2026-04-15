@@ -52,7 +52,9 @@ Porque el bridge solo se encarga de transportar los datos, no de decidir cuando 
 
 El momento en el que se ejecuta un evento depende de cómo se quiere interpretar y eso es lo que hace el fronted.
 
+### **¿Qué papel cumple el Adapter en U4 y U5?**
 
+En las unidades 4 y 5 el adapter se encarga de recibir los datos del micro:bit y traducirlos a un formato claro para el sistema (ASCII en la unidad 4 y binario en la unidad 5). En estos casos, su función principal era tomar datos crudos y convertirlos en información organizada (movimiento en x, y, botones) para que el resto del sistema lo pueda utilizar sin preocuparse por el formato.
 
 ## Bitácora de aplicación 
 

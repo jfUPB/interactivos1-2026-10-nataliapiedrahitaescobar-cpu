@@ -56,6 +56,10 @@ El momento en el que se ejecuta un evento depende de cómo se quiere interpretar
 
 En las unidades 4 y 5 el adapter se encarga de recibir los datos del micro:bit y traducirlos a un formato claro para el sistema (ASCII en la unidad 4 y binario en la unidad 5). En estos casos, su función principal era tomar datos crudos y convertirlos en información organizada (movimiento en x, y, botones) para que el resto del sistema lo pueda utilizar sin preocuparse por el formato.
 
+### **¿Qué Adapter necesitas ahora para que los eventos de Strudel no entren “crudos” al sistema visual?**
+
+Para esta actividad se necesita un StrudelAdapter que debe recibir los datos desde Strudel por medio del WebSocket, interpretar el JSON que llega, extraer los datos importantes que son el sonido, timestamp y duración que es el delta y convertirlos en un formato claro para el sistema.
+
 ## Bitácora de aplicación 
 
 

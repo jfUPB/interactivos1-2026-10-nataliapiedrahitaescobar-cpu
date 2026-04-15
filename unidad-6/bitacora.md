@@ -29,7 +29,7 @@ Cada mensaje representaría un evento musical y tendría información como:
 
 El protocolo define cómo están organizados los datos que Strudel envía para que otro sistema los pueda leer de forma correcta.
 
-## **¿Qué variables mínimas necesitarías extraer para poder construir una visualización útil?**
+### **¿Qué variables mínimas necesitarías extraer para poder construir una visualización útil?**
 
 Para hacer una visualización útil se necesita:
 
@@ -37,7 +37,20 @@ Para hacer una visualización útil se necesita:
 2. Un timestamp para sincronizar el momento en que aparece la animación.
 3. El delta, para controlar cuánto dura o cómo se comporta la animación.
 
+### **¿Qué problema resuelve la cola de eventos?**
 
+La cola de eventos soluciona el problema de la desincronización. Si los eventos se ejecutan apenas llegan, podrían atrasarse o adelantarse por cosas como la conexión o el rendimiento del computador, pero si se guardan en una cola, el sistema puede esperar al momento exacto (timestamp) para ejecutarlo.
+
+Esto logra que:
+- Las animaciones esten en ritmo.
+- Todo ocurra en el momento adecuado.
+- No se depende de la velocidad de llegada del mensaje.
+
+### **¿Por qué esta capa no pertenece al bridge sino al lado que interpreta el evento?**
+
+Porque el bridge solo se encarga de transportar los datos, no de decidir cuando se usan.
+
+El momento en el que se ejecuta un evento depende de cómo se quiere interpretar y eso es lo que hace el fronted.
 
 
 

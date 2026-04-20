@@ -71,9 +71,9 @@ const WebSocket = require("ws"); //Tipo de conexión que permite enviar datos, r
 const BaseAdapter = require("./BaseAdapter");
 
 class StrudelAdapter extends BaseAdapter{  //Es el adaptador que se conecta al servidor de Strudel.
-    constructor({ url =  "ws://localhost:8080", verbose = false } = {}) {
+    constructor({port = 8080, verbose = false } = {}) {
         super();
-        this.url = url; //Dirección donde el Strudel envía datos.
+        this.port = port; //Puerto en el que se conecta al servidor de Strudel.
         this.ws = null; //Conexión WebSocket que inicialmente está desconectada.
         this.verbose = verbose;
     }
@@ -81,45 +81,46 @@ class StrudelAdapter extends BaseAdapter{  //Es el adaptador que se conecta al s
     async connect() { //Crea la conexión con Strudel y define los eventos para recibir datos.
         if (this.connected) return;
 
-        this.ws = new WebSocket(this.url);
+        this.wss = new WebSocket.Server({ port: this.port})
 
-        //Cuando se conecta, se establece la conexión y se notifica al cliente que está conectado.
-        this.ws.on("open", () => {
-            this.connected = true;
-            this.onConnected?.(`connected to ${this.url}`);
-        })
+        this.connected = true;
+        this.onConnected?.(`Strudel WS server on ${this.port}`);
 
-        this.ws.on("message", (message) => { //Llega un mensaje del Strudel.
-            try {
-                const msg = JSON.parse(message); //Se parsea el mensaje, se espera que sea un JSON con una estructura específica.
+        this.wss.on("connection", (ws) => {
+            console.log("Strudel conectado al Bridge");
 
-                //Extraer datos importantes: El sonido y el delta (cambio en el sonido).
-                const args = msg.args || [];
+            ws.on("message", (message) => {
+                try{
+                    const msg = JSON.parse(message);
 
-                const getArg = (key) => {
-                    const i = args.indexOf(key);
-                    return i >= 0 ? args[i + 1] : null;
-                };
+                    const args = msg.args || [];
 
-                const s = getArg("s");
-                const delta = getArg("delta");
+                    const getArg = (key) => {
+                        const i = args.indexOf(key);
+                        return i >= 0 ? args[i + 1] : null;
+                    };
 
-                //Normalizar evento, transforma el mensaje en un formato limpio para que el cliente pueda usarlo fácilmente.
-                this.onData?.({ 
-                    type: "strudel",
-                    timestamp: msg.timestamp,
-                    payload: {
-                        s,
-                        delta
-                    }
-                });
-            } catch (e) { //Reporta errores de parseo o mensajes mal formados, si el mensaje no es un JSON válido o no tiene la estructura esperada, se captura el error y se muestra un mensaje de advertencia.
-                if(this.verbose) console.log("Bad strudel message", message);
-            }
+                    const s = getArg("s");
+                    const delta = getArg("delta");
+
+                    this.onData?.({
+                        type: "strudel",
+                        timestamp: msg.timestamp,
+                        payload: {
+                            s,
+                            delta
+                        }
+                    });
+
+                } catch (e) {
+                    if (this.verbose) console.log("Bad strudel message", message);
+                }
+            });
         });
-        this.ws.on("error", (err) => this._fail(err));
-        this.ws.on("close", () => this._closed()); 
+       
     }
+
+       
     
     async disconnect(){ //Cierra la conexión con Strudel, si está abierta, y  notifica al cliente que se ha desconectado.
         if (!this.connected) return;
@@ -133,23 +134,8 @@ class StrudelAdapter extends BaseAdapter{  //Es el adaptador que se conecta al s
         this.onDisconnected?.("ws closed");
     }
 
-    getConnectionDetail() {
-        return `ws ${this.url}`;
-    }
-
-    _fail(err) {
-        this.onError?.(String(err?.message || err));
-        this.disconnect();
-    }
-
-    _closed() {
-        if (!this.connected) return;
-        this.connected = false;
-        this.ws = null;
-        this.onDisconnected?.("ws closed (event)");
-    }
 }
-
+    
 module.exports = StrudelAdapter;
 ```
 2. Conectar el StrudelAdpater al bridgeServer para que el programa pueda soportar una nueva fuente de datos (Strudel), que es el que envía eventos musicales.
@@ -431,14 +417,6 @@ async function main() {
     log.error("Fatal:", e);
     process.exit(1);
   });
-```
-
-3. Se agregó esta nueva parte al código del bridgeCliente para que Strudel pueda entrar al sistema al igual que el micro:bit, permitiendo que los datos musicales lleguen al fronted
-```
-if (msg.type === "strudel") {
-  this._onData?.(msg);
-  return;
-}
 ```
 
 **Código bridgeClient completo:**
@@ -724,209 +702,56 @@ El sketch convierte los eventos musicales en visuales en 4 pasos.
 4. Dibuja la animación.
 
 ```
-// Maneja la conexión con el microbit, Recibe los datos del microbit y dibuja en pantalla con estos datos. Utiliza una máquina de estados para manejar la lógica de la aplicación.
-
-const EVENTS = {
-    //Definición de los eventos.
-    CONNECT: "CONNECT",
-    DISCONNECT: "DISCONNECT",
-    DATA: "DATA",
-    STRUDEL: "STRUDEL",
-    KEY_PRESSED: "KEY_PRESSED",
-    KEY_RELEASED: "KEY_RELEASED",
-};
-
-class PainterTask extends FSMTask {
-    constructor() {
-        super();
-
-        this.c = color(181, 157, 0); //Color inicial del dibujo. se actualiza al soltar el botón B del microbit, con un color aleatorio.
-        this.lineSize = 100;
-        this.angle = 0;
-        this.clickPosX = 0;
-        this.clickPosY = 0;
-
-        this.rxData = { //Objeto donde se guardan los datos del microbit, se actualizan en la función updateLogic.
-            x: 0,
-            y: 0,
-            btnA: false,
-            btnB: false,
-            prevA: false,
-            prevB: false,
-            ready: false
-        };
-
-        //Strudel
-        this.eventQueue = [];
-        this.activeAnimations = [];
-        //Es donde se guardan los datos recibidos del microbit, se actualizan en la función updateLogic.
-        this.transitionTo(this.estado_esperando);
-    }
-  
-    //Estado donde todavía no hay conexión con el microbit.
-    estado_esperando = (ev) => {
-        if (ev.type === "ENTRY") {
-            cursor();
-            console.log("Waiting for connection...");
-        } else if (ev.type === EVENTS.CONNECT) {
-            this.transitionTo(this.estado_corriendo);
-        }
-    };
-
-    //El microbit ya está conectado, se reciben los datos y se dibuja en pantalla.
-    estado_corriendo = (ev) => {
-        if (ev.type === "ENTRY") {
-            noCursor();
-            strokeWeight(0.75);
-            background(255);
-            console.log("Microbit ready to draw");
-            this.rxData = {
-                x: 0,
-                y: 0,
-                btnA: false,
-                btnB: false,
-                prevA: false,
-                prevB: false,
-                ready: false
-            };
-        }
-
-        else if (ev.type === EVENTS.DISCONNECT) { //Cuando el bridge recibe los datos de desconexión, se vuelve al estado de espera.
-            this.transitionTo(this.estado_esperando);
-        }
-
-        else if (ev.type === EVENTS.DATA) {
-            this.updateLogic(ev.payload); //Se procesan los datos del microbit.
-        }
-
-        else if (ev.type === EVENTS.STRUDEL) {
-          this.updateStrudel(ev); //Se procesan los datos del strudel, aunque en este caso no se hace nada con ellos.
-        }
-
-        else if (ev.type === EVENTS.KEY_PRESSED) {
-            this.handleKeys(ev.keyCode, ev.key);
-        }
-
-        else if (ev.type === EVENTS.KEY_RELEASED) {
-            this.handleKeyRelease(ev.keyCode, ev.key);
-        }
-
-        else if (ev.type === "EXIT") {
-            cursor();
-        }
-    };
-    //Convierte los valores del acelerómetro a coordenadas de la pantalla y maneja la lógica de los botones.
-    //Lógico del microbit.
-    updateLogic(data) {
-        this.rxData.ready = true;
-        console.log("A:", data.btnA, "B:", data.btnB)
-        this.rxData.x = map(data.x,-2048,2047,0,width);
-        this.rxData.y = map(data.y,-2048,2047,0,height);
-        this.rxData.btnA = data.btnA == 1 || data.btnA === true;
-        this.rxData.btnB = data.btnB == 1 || data.btnB === true;
-
-        if (this.rxData.btnA && !this.rxData.prevA) {
-            this.lineSize = random(50, 160);
-            this.clickPosX = this.rxData.x;
-            this.clickPosY = this.rxData.y;
-            console.log("A pressed");
-        }
-
-        if (!this.rxData.btnB && this.rxData.prevB) {
-            this.c = color(random(255), random(255), random(255), random(80, 100));
-            console.log("B released");
-        }
-
-        this.rxData.prevA = this.rxData.btnA;
-        this.rxData.prevB = this.rxData.btnB;
-    }
-
-    //Lógica del Strudel.
-    updateStrudel(ev) {
-        this.eventQueue.push({
-            timestamp: ev.timestamp,
-            s: ev.payload.s,
-            delta: ev.payload.delta || 0.25
-        });
-
-        this.eventQueue.sort((a,b)  => a.timestamp - b.timestamp);
-    }
-
-    processStrudel() {
-        let now = Date.now();
-
-        while(
-            this.eventQueue.length > 0 &&
-            now >= this.eventQueue[0].timestamp
-        ) {
-            let ev = this.eventQueue.shift();
-
-            this.activeAnimations.push({
-                startTime: ev.timestamp,
-                duration: ev.delta * 1000,
-                type: ev.s,
-                x: random(width),
-                y: random(height)
-            });
-        }
-    }
-}
-
-
 let painter;
 let bridge;
 let connectBtn;
-const renderer = new Map();
+let renderer = new Map();
 
-function setup() { //Crea el canvas, usa todo el tamaño de la ventana y pinta el fondo de blanco (255).
+function setup() {
     createCanvas(windowWidth, windowHeight);
-    background(255);
-    painter = new PainterTask(); //Es el objeto principal de la aplicación.
-    bridge = new BridgeClient(); //Puente de comunicación con el microbit.
+    background(0);
 
+    painter = new PainterTask(); //Crea una nueva tarea de pintura, que es la máquina de estados que controla la pintura en el canvas.
+    bridge = new BridgeClient(); //Crea una nueva instancia del cliente del puente, que se conecta al servidor del puente para recibir los datos del microbit y el strudel.
+
+    //Conexión con el bridge.
     bridge.onConnect(() => {
         connectBtn.html("Disconnect");
-        painter.postEvent({ type: EVENTS.CONNECT });
+        painter.postEvent({ type: "CONNECT"});
     });
 
     bridge.onDisconnect(() => {
         connectBtn.html("Connect");
-        painter.postEvent({ type: EVENTS.DISCONNECT });
+        painter.postEvent({ type: "DISCONNECT"});
     });
 
     bridge.onStatus((s) => {
-        console.log("BRIDGE STATUS:", s.state, s.detail ?? "");
+        console.log("BRIDEGE STATUS:", s.state, s.detail ?? "");
     });
 
-    //Se diferencian microbit data del strudel data.
-  bridge.onData((data) => {
-
-        // MICROBIT
-        if (data.type === "microbit" || data.x !== undefined) {
+    //Aquí llegan todos los datos del microbit y el strudel.
+    bridge.onData((data)=> {
+         //Strudel
+         if (data.type === "strudel") {
             painter.postEvent({
-                type: EVENTS.DATA,
-                payload: {
-                    x: data.x,
-                    y: data.y,
-                    btnA: data.btnA,
-                    btnB: data.btnB
-                }
-            });
-        }
-
-        // STRUDEL
-        else if (data.type === "strudel") {
-            painter.postEvent({
-                type: EVENTS.STRUDEL,
+                type: "Strudel",
                 timestamp: data.timestamp,
                 payload: data.payload
             });
-        }
+         }
+
+         //Microbit
+         else if (data.type === "microbit") {
+            painter.postEvent({
+                type: "DATA",
+                payload: data
+            });
+         }
     });
 
-    // BOTÓN (NO SE TOCA)
+    //Botón 
     connectBtn = createButton("Connect");
-    connectBtn.position(10, 10);
+    connectBtn.position(10,10);
     connectBtn.mousePressed(() => {
         if (bridge.isOpen) bridge.close();
         else bridge.open();
@@ -935,89 +760,58 @@ function setup() { //Crea el canvas, usa todo el tamaño de la ventana y pinta e
     renderer.set(painter.estado_corriendo, drawRunning);
 }
 
-function draw() {//Se ejecuta 60 veces por segundo.
-    painter.update(); //Actualiza la máquina de estados.
-    //Ejecutar eventos temporizados del strudel
-    painter.processStrudel();
-
-    renderer.get(painter.state)?.();
+function draw() {
+    painter.update();
+    renderer.get(painter.state)?.(); //Llama a la función de renderizado correspondiente al estado actual de la máquina de estados.
 }
 
-function drawRunning() { //Ejecuta cada frame mientras la máquina de estados esté en estado_corriendo.
-   let mb = painter.rxData;//Busca que función dibuja el estado actual, se obtiene  los datos que llegaron del microbit.
-   
-   if(!mb || !mb.ready) return; //Verifica si llegaron los datos del microbit, si no llegaron, no hace nada.
+function drawRunning() {
+    background(0, 40);
 
-   if (mb.btnB){
-    fill(painter.c);
-   }else{
-    noFill();
-   }
+    //Activar eventos en el tiempo correcto
+    painter.processEvents();
 
-   if(mb.btnA) {
-    push();
-    translate(width / 2, height / 2);
-    
-    let circleResolution = int(map(mb.y, 0, height, 2, 10));
-    let radius = map(mb.x, 0, width, 10, width / 2);
-    let angle = TAU / circleResolution;
+    //Dibujo de Strudel
+    for (let anim of painter.ActiveAnimations) {
 
-    beginShape();
-    for(let i = 0; i <= circleResolution; i++){
-        let x = cos(angle * i) * radius;
-        let y = sin(angle * i) * radius;
-        vertex(x,y);
-    }
-    endShape();
-    pop();
-   }
-}
-//Strudel
-let now = Date.now();
+        let now = Date.now(); //Tiempo actual para calcular la animación.
+        let progress = (now - anim.startTime) / anim.duration; //Progeso de la animación.
 
-    for (let i = painter.activeAnimations.length - 1; i >= 0; i--) {
-        let anim = painter.activeAnimations[i];
+        if (progress > 1) continue; //Si la animación ha terminado, saltar a la siguiente.
 
-        let progress = (now - anim.startTime) / anim.duration;
+        switch (anim.type) {
+            
+            case "tr909bd": //Bombo
+            fill (255, 0, 80);
+            noStroke();
+            circle(width / 2, height / 2, lerp(50, 300, progress)); //Dibuja un círculo que crece con el tiempo.
+            break;
 
-        if (progress <= 1) {
-            drawStrudel(anim, progress);
-        } else {
-            painter.activeAnimations.splice(i, 1);
+            case "tr909sd": //Caja
+            fill (0, 200, 255);
+            rectMode(CENTER); 
+            rect(width / 2, height / 2, lerp(width, 0, progress), 50); //Dibuja un rectángulo que se encoge con el tiempo.
+            break; 
+
+            case "tr909hh":
+            case "tr909oh": //Hi-hat abierto y cerrado
+            fill (255, 255, 0);
+            rect(anim.x, anim.y, lerp(40, 0, progress), lerp(40, 0, progress)); //Dibuja un rectángulo que se encoge con el tiempo en la posición del hi-hat.
+            break;
+
+            default:
+                fill(255);
+                noFill();
+                rect(anim.x, anim.y, lerp(100, 0, progress), lerp(100, 0, progress)); //Dibuja un rectángulo genérico para otros tipos de animaciones.
+                break;
         }
     }
 
-//Dibujar strudel
-function drawStrudel(anim, p) {
+}
 
-    switch (anim.type) {
-
-        case "tr909bd":
-            fill(255, 0, 80);
-            circle(width / 2, height / 2, lerp(50, 400, p));
-            break;
-        
-        case "tr909sd":
-            fill(0, 200, 255);
-            rect(width / 2, height / 2, lerp(width, 0, p), 50);
-            break;
-        
-        case "tr909hh":
-        case "tr909oh":
-            fill(255, 255, 0);
-            rect(anim.x, anim.y, lerp(40, 0, p), lerp(40, 0, p));
-            break;
-
-        default:
-            fill(200);
-            circle(anim.x, anim.y, lerp(20, 100, p));
-            break;
-        }
-    }
-    
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-}
+} 
 ```
 
 ## Bitácora de reflexión

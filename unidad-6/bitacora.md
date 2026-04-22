@@ -890,7 +890,24 @@ Pero en el sistema se utilizó una estructura más clara que facilita trabajar c
 5. processEvents es el que activa los eventos en el momento correcto.
 6. drawRunning es el que dibuja las animaciones usando la información del código ya procesada.
 
-### **¿Cómo separaste recepción, cola temporal y renderizado?
+### **¿Cómo separaste recepción, cola temporal y renderizado?**
+
+Se hizo teniendo en cuenta la arquitectura inicial que ya tenía el código:
+
+1. El bridgeClient.js es el encargado de recibir los datos desde el bridgeServer.js teniendo un rol de recepción en el código.
+2. El updateLogic y processEvents es donde se guardan los eventos en la cola ordenada por el tiempo y se activan cuando corresponde.
+3. El drawRunning sirve como renderizado, ya que es el que se encarga de dibujar, sin interpretar datos web.
+
+### **¿Qué pruebas hice para verificar la sincronización?**
+
+1. Verifiqué que Strudel estuviera mandando los datos [osc] WebSocket connected.
+
+
+<img width="685" height="185" alt="image" src="https://github.com/user-attachments/assets/c34717e1-d300-465f-9d30-9d649e9b053b" />
+
+<img width="446" height="431" alt="image" src="https://github.com/user-attachments/assets/c767d687-f1d4-4f1e-ba55-8af50636af11" />
+
+
 
 
 

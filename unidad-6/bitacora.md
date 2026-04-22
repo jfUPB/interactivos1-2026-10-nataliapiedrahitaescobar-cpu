@@ -880,6 +880,20 @@ Pero en el sistema se utilizó una estructura más clara que facilita trabajar c
   }
 }
 ```
+
+### **Cómo conectaste bridgeClient.js, FSMTask, updateLogic y drawRunning**
+
+1. El bridgeClient.js recibe los mensajes del bridgeServer.js y detecta si son de tipo Strudel.
+2. Luego el bridgeClient.js manda esos datos al FSM.js usando painter.postEvent(...).
+3. En FSM.js, específicamente en el FSMtask el estado_corriendo recibe el evento y llama al updateLogic.
+4. El updateLogic se encarga de guardar los eventos en la cola (eventQueue).
+5. processEvents es el que activa los eventos en el momento correcto.
+6. drawRunning es el que dibuja las animaciones usando la información del código ya procesada.
+
+### **¿Cómo separaste recepción, cola temporal y renderizado?
+
+
+
 ### **¿Qué problemas encontré y solucioné?**
 
 **Error en el fsm.js**

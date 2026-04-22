@@ -842,3 +842,30 @@ function windowResized() {
 ```
 
 ## Bitácora de reflexión
+
+**Error en el fsm.js**
+
+Al inicio, el sistema sí recibía los datos desde strudel, pero las animaciones no aparecían en eñ html. El problema estaba en cómo se estaban interpretando los datos.
+
+Strudel envía la información por medio de un formato específico, donde los datos importantes viene dentro del arreglo args. (args: ["s", "tr909bd", "delta", 0.5]) donde s indica el sonido, tr909bd es el sonido (bombo), delta es la duración, y 0.5 es el valor de esa duración.
+
+El problema que había era que el código antes intentaba leer los datos así:
+```
+ev.payload.s
+ev.payload.delta
+```
+
+Pero esos valores no existían directamente ahí porque están dentro del args y por eso s quedaba como undefined, delta también quedaba mal, los eventos no se guardaban bien y por eso no se veían las animaciones en pantalla. Para corregir este erros, se hizo un cambio en el updateLogic para que pudiera leer correctamente el arreglo args:
+
+```
+let args = ev.payload.args;
+
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === "s") {
+    sound = args[i + 1];
+  }
+  if (args[i] === "delta") {
+    delta = args[i + 1];
+  }
+}
+```

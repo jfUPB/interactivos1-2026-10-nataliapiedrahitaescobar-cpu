@@ -843,6 +843,45 @@ function windowResized() {
 
 ## Bitácora de reflexión
 
+### **¿Cómo se configuró Strudel para emitir eventos?**
+
+Strudel se configuró para que pudiera mandar eventos .osc(), que es el que permite que se mande información por WebSocket al puerto 8080. Con esto, cada sonido que se reproduce en Strudel genera un evento que se envía automáticamente. 
+Ejemplo usado:
+ 
+```
+$: stack(
+  sound("bd*4, sd*2, hh*8")
+    .bank("tr909")
+    .osc()
+)
+```
+
+### **¿Qué estructura final de mensaje utilicé?**
+
+El mensaje inicial de Strudel llega así:
+
+```
+{
+  address: "/dirt/play",
+  args: ["s", "tr909bd", "delta", 0.5],
+  timestamp: 123456789
+}
+```
+
+Pero en el sistema se utilizó una estructura más clara que facilita trabajar con los datos sin tener que interpretar el arreglo args en todas partes.
+
+```
+{
+  type: "strudel",
+  timestamp: Date.now(),
+  payload: {
+    s: "tr909bd",
+    delta: 0.5
+  }
+}
+```
+### **¿Qué problemas encontré y solucioné?**
+
 **Error en el fsm.js**
 
 Al inicio, el sistema sí recibía los datos desde strudel, pero las animaciones no aparecían en eñ html. El problema estaba en cómo se estaban interpretando los datos.

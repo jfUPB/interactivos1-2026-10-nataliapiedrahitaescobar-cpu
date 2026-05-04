@@ -29,6 +29,33 @@ El sistema ahora separa correctamente dos responsabilidades:
 
 Esto permite que múltiples fuentes de datos convivan sin interferir entre sí, manteniendo una arquitectura modular, desacoplada y extendible.
 
+## **Paso 1**
+
+### **Si Open Stage Control fuera “el dispositivo” de esta unidad, ¿Cuál sería su protocolo?**
+
+El protocolo de Open Stage Control sería OSC, que es la forma en la que el programa  manda la información.
+
+Manda mensajes que tienen: un nombre tipo (/rgb_1) y unos valores como ([255, 120, 30]) que es como decir: "Quiero cambiar esto... a estos valores..."
+
+### **¿Qué parte de ese protocolo te interesa conservar y cuál te gustaría normalizar?**
+
+Lo más importante que se debe conservar es saber qué cosa se está cambiando, como el color y con qué valores como los números RGB.
+
+Lo que se puede normalizar es el /rgb_1 y el args porque son comando que al ser muy específicos del Open Stage Control, pueden confundir el código.
+
+Ejemplo: 
+
+En vez de usar esto:
+```
+address: "/rgb_1",
+args: [255, 120, 30]
+``` 
+
+Se cambiaría a esto:
+```
+color = [255, 120, 30]
+``` 
+ Open Stage Control mana la información de una forma específica, pero no es necesario que el sistema la utlice tal cual, ya que lo mejor es traducir esos mensajes a un lenguaje más simple y claro , para que el código sea más fácil de entender y usar.
 
 ## Bitácora de aplicación 
 

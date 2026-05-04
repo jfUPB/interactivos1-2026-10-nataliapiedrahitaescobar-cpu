@@ -87,6 +87,15 @@ this.params = {
 Estos son los datos del OSC que se encargan de guardar los valores actuales del sistema, se actualizan cuando llega OSC y se utilizan para el render de los dibujos.
 
 ## Bitácora de aplicación 
+### **Actividad 2**
+1. Se creó un nuevo adapter (OSCAdapter) que tiene de base al BaseAdapter que servirá para recibir los mensajes OSC crudos (Desde UDP/bridgeServer) y normalizarlos.
 
+El OSCAdapter solo emite datos limpios al bridge mas no interpreta la lógica visual y no modifica directamente el sketch.
+
+
+### **Código OSCAdapter**
+```
+
+```
 
 ## Bitácora de reflexión

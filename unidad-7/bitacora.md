@@ -57,6 +57,17 @@ color = [255, 120, 30]
 ``` 
  Open Stage Control mana la información de una forma específica, pero no es necesario que el sistema la utlice tal cual, ya que lo mejor es traducir esos mensajes a un lenguaje más simple y claro , para que el código sea más fácil de entender y usar.
 
+## **Paso 2**
+
+### **¿Por qué no conviene procesar un mensaje OSC igual que un mensaje de Strudel?**
+
+Porque ambos programas hacen cosas diferentes. Strudel manda eventos que pasan en un momento exacto mientras que Open Stage Control manda cambios que se quedan. Si se tratara un mensaje tipo OSC como si fuera Strudel el cambio solo pasaría un instante, no se mantendría en el tiempo y se perdería la idea del control contínuo.
+
+### **¿Qué variables del sistema deberían vivir como estado persistente y no como evento efímero?**
+
+Deberían ser persistentes todas las variables que definen cómo se ven o se comportan las visuales en general, no algo que suceda una sola vez. Como el color, el tamaño base, la velocidad y la transparencia o el brillo.
+
+
 ## Bitácora de aplicación 
 
 

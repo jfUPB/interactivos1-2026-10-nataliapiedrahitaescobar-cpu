@@ -67,6 +67,24 @@ Porque ambos programas hacen cosas diferentes. Strudel manda eventos que pasan e
 
 Deberían ser persistentes todas las variables que definen cómo se ven o se comportan las visuales en general, no algo que suceda una sola vez. Como el color, el tamaño base, la velocidad y la transparencia o el brillo.
 
+## **Paso 3**
+
+### **¿Qué componentes de la arquitectura necesitas conservar obligatoriamente?**
+
+Para que Open Stage Control no dañe lo que ya funciona, se deben mantener en el código los adapters que hacen que todo lo que entre al sistema se traduzca correctamente antes de usarse, el bridge que sigue siendo el intermediario que envía los datos sin lógica, las capas de estado donde se guarda lo que esté pasando en el sistema y el sketch o la capa de renderizado que es donde se dibujan las visuales.
+
+### **¿Qué nuevas estructuras de estado necesitas introducir para soportar control paramétrico?**
+
+Se debe introducir una nueva estructura que guarde los controles que vinen del OSC como por ejemplo:
+```
+this.params = {
+  color: [255, 255, 255],
+  size: 1,
+  speed: 1
+};
+```
+
+Estos son los datos del OSC que se encargan de guardar los valores actuales del sistema, se actualizan cuando llega OSC y se utilizan para el render de los dibujos.
 
 ## Bitácora de aplicación 
 
